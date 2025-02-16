@@ -58,7 +58,7 @@ export default function Home() {
         );
 
         const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-            let results = snapshot.docs.map((doc) => doc.data());
+            const results = snapshot.docs.map((doc) => doc.data());
             setMessages(results);
         });
 
