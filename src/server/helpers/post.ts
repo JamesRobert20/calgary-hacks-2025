@@ -43,6 +43,7 @@ export async function searchPosts({ searchTerm, page, limit, sortParam }: Search
                 }
             },
             { $unwind: '$userDetails' },
+            { $addFields: { creator: "$userDetails" } },
             { $sort: sort as { [key: string]: 1 | -1 } },
             { $skip: page * limit },
             { $limit: limit }
