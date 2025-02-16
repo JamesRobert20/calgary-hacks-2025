@@ -1,6 +1,7 @@
 import { MediaType } from ".";
 
 export type NewPost = {
+    title: string,
     caption?: string,
     media?: {
         path: string,

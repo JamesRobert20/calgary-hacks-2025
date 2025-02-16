@@ -4,6 +4,10 @@ import { mediaTypes } from '@/server/helpers';
 import { DATABASE_CONNECTION } from '@/server/database';
 
 const PostSchema = new Schema<PostSchemaType>({
+    title: {
+        type: String,
+        required: true
+    },
     caption: {
         type: String,
         required: false

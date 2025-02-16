@@ -62,13 +62,15 @@ export async function searchPosts({ searchTerm, page, limit, sortParam }: Search
 }
 
 export async function translatePost(post: PostSchemaType, targetLanguage: string): Promise<PostSchemaType> {
-    const [translatedCaption, translatedTags] = await Promise.all([
+    const [translatedTitle, translatedCaption, translatedTags] = await Promise.all([
+        translateText(post.title, targetLanguage),
         post.caption ? translateText(post.caption, targetLanguage) : Promise.resolve(""),
         Promise.all(post.tags.map(tag => translateText(tag, targetLanguage)))
     ]);
 
     return {
         ...post,
+        title: translatedTitle,
         caption: translatedCaption,
         tags: translatedTags
     }
