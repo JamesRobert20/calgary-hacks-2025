@@ -4,6 +4,7 @@ export async function POST(req: Request) {
     try {
         const { text, targetLanguage } = await req.json();
         const translatedText = await translateText(text, targetLanguage);
+        console.log("translatedText", translatedText)
         return new Response(JSON.stringify({ success: true, text: translatedText }), { status: 201 });
     } catch (error: unknown) {
         console.error("Error from translate api route: ", error)
