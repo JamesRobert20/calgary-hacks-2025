@@ -53,7 +53,7 @@ export default function Home() {
 
         const messagesQuery = query(
             messagesRef,
-            where("conversationId", "==", selectedConversation),
+            where("conversationId", "==", selectedConversation.id),
             orderBy("createdAt", "asc")
         );
 
@@ -102,9 +102,9 @@ export default function Home() {
                         >
                             <div className={styles.conversationHeader}>
                                 <span className={styles.lastMessage}>{conversation.lastMessage}</span>
-                                <span className={styles.timestamp}>
+                                {conversation.updatedAt && <span className={styles.timestamp}>
                                     {conversation.updatedAt.toDate().toLocaleString()}
-                                </span>
+                                </span>}
                             </div>
                         </div>
                     ))}
