@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./page.module.css";
 import { ConversationObject, MessageObject } from "@/types/chat";
 import { and, collection, or, orderBy, query, where, onSnapshot, serverTimestamp, addDoc } from "firebase/firestore";
-import { conversationConverter, firestore } from "@/lib/firestoreConfig";
+import { conversationConverter, firestore, messageConverter } from "@/lib/firestoreConfig";
 
 export default function Home() {
     const [conversations, setConversations] = useState<ConversationObject[]>([]);
@@ -45,7 +45,7 @@ export default function Home() {
         return () => unsubscribe();
     }, [conversationsQuery]);
 
-    const messagesRef = collection(firestore, "messages");
+    const messagesRef = useMemo(() => collection(firestore, "messages").withConverter(messageConverter), []);
 
     // Subscribe to messages when a conversation is selected
     useEffect(() => {
@@ -58,11 +58,8 @@ export default function Home() {
         );
 
         const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
-            const messagesData = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            })) as MessageObject[];
-            setMessages(messagesData);
+            let results = snapshot.docs.map((doc) => doc.data());
+            setMessages(results);
         });
 
         return () => unsubscribe();
@@ -87,6 +84,8 @@ export default function Home() {
 
     const [messageInput, setMessageInput] = useState("");
 
+    console.log("messages", messages)
+
     return (
         <div className={styles.container}>
             {/* Conversations Sidebar */}
@@ -102,9 +101,11 @@ export default function Home() {
                         >
                             <div className={styles.conversationHeader}>
                                 <span className={styles.lastMessage}>{conversation.lastMessage}</span>
-                                {conversation.updatedAt && <span className={styles.timestamp}>
-                                    {conversation.updatedAt.toDate().toLocaleString()}
-                                </span>}
+                                {conversation.updatedAt &&
+                                    <span className={styles.timestamp}>
+                                        {conversation.updatedAt.toDate().toLocaleString()}
+                                    </span>
+                                }
                             </div>
                         </div>
                     ))}
@@ -127,9 +128,9 @@ export default function Home() {
                                     <div className={styles.messageContent}>
                                         {message.message.content}
                                     </div>
-                                    <div className={styles.messageTime}>
+                                    {message.createdAt && <div className={styles.messageTime}>
                                         {message.createdAt.toDate().toLocaleString()}
-                                    </div>
+                                    </div>}
                                 </div>
                             ))}
                         </div>
