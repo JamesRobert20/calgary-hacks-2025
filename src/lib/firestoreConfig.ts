@@ -36,6 +36,7 @@ export const firestore = getFirestore(app);
 export const messageConverter: FirestoreDataConverter<MessageObject, FirestoreMessageObject> = {
     toFirestore(doc: WithFieldValue<MessageObject>) {
         const { id, ...payLoad } = doc as MessageObject;
+        console.log("id", id)
         return payLoad;
     },
     fromFirestore(
@@ -62,6 +63,7 @@ export const messageConverter: FirestoreDataConverter<MessageObject, FirestoreMe
 export const conversationConverter: FirestoreDataConverter<ConversationObject, FirestoreConversationObject> = {
     toFirestore(doc: WithFieldValue<ConversationObject>) {
         const { id, ...payLoad } = doc as ConversationObject;
+        console.log("id", id)
         return payLoad;
     },
     fromFirestore(

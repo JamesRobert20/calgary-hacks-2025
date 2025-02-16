@@ -33,7 +33,7 @@ export default function Home() {
             )
         ),
         orderBy("updatedAt", "desc"),
-    ), [userId]);
+    ), [userId, conversationsRef]);
 
     // Subscribe to conversations
     useEffect(() => {
@@ -66,7 +66,7 @@ export default function Home() {
         });
 
         return () => unsubscribe();
-    }, [selectedConversation]);
+    }, [selectedConversation, messagesRef]);
 
     const createNewEmptyMessage = useCallback(async (conversationId: string, text: string, receiver: string) => {
         const timeStamp = serverTimestamp();
