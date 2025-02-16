@@ -22,6 +22,10 @@ const userSchema = new Schema<FullUserSchema>({
         required: true,
         unique: true
     },
+    language: {
+        type: String,
+        required: true
+    },
     pushTokens: {
         type: [String],
         required: true,

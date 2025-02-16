@@ -3,15 +3,12 @@ export type NewUser = {
     email: string,
     username: string,
     clerkId: string,
+    language: string
 }
 
-export type FullUserSchema = {
+export type FullUserSchema = NewUser & {
     _id: string,
-    name: string,
-    email: string,
-    username: string,
-    clerkId: string, 
     pushTokens: string[],
     createdAt: Date,
-    updatedAt: Date,
+    updatedAt: Date
 }
